@@ -4,14 +4,14 @@
 // ============================================================
 
 (function(){
-  const SUPABASE_URL = "https://ynvrijkuampxpsmshftm.supabase.co";
+  const SUPABASE_URL = "https://0ec90b57d6e95fcbda19832f.supabase.co";
   const VALIDATE_URL = SUPABASE_URL + "/functions/v1/validate-license";
   const OPTIMIZE_URL = SUPABASE_URL + "/functions/v1/optimize-prompt";
   const NOTIFICATIONS_URL = SUPABASE_URL + "/rest/v1/notifications?select=*&order=created_at.desc&limit=20";
   const VERSIONS_URL = SUPABASE_URL + "/rest/v1/extension_versions?select=version,changelog,file_path,is_alert_active&order=created_at.desc&limit=1&is_alert_active=eq.true";
   const USER_ROLES_URL = SUPABASE_URL + "/rest/v1/user_roles?select=role";
   const PROXY_COMMAND_URL = SUPABASE_URL + "/functions/v1/proxy-command";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InludnJpamt1YW1weHBzbXNoZnRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMDc1NjYsImV4cCI6MjA4OTc4MzU2Nn0.wFo3etz2hWmb8VCtadXRdqQAyCDaP2Li4Rs5kHLTdfM";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib2x0IiwicmVmIjoiMGVjOTBiNTdkNmU5NWZjYmRhMTk4MzJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4ODE1NzQsImV4cCI6MTc1ODg4MTU3NH0.9I8-U0x86Ak8t2DGaIk0HfvTSLsAyzdnz-Nw00mMkKw";
 
   let sessionId = null, userName = null, expiresAt = null, licenseStatus = null, heartbeatInterval = null, deviceId = null, isResellerUser = false;
   let spSpeechRecognition = null, spIsRecording = false;
@@ -892,9 +892,9 @@
     overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
   }
 
-  var REMOVE_WATERMARK_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/remove-watermark";
-  var PUBLISH_PROJECT_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/publish-project";
-  var ENABLE_CLOUD_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/enable-cloud";
+  var REMOVE_WATERMARK_URL = SUPABASE_URL + "/functions/v1/remove-watermark";
+  var PUBLISH_PROJECT_URL = SUPABASE_URL + "/functions/v1/publish-project";
+  var ENABLE_CLOUD_URL = SUPABASE_URL + "/functions/v1/enable-cloud";
 
   function showSpPublishedUrlModal(url){
     var existing = document.getElementById("sp-publish-modal");

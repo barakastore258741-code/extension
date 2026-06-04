@@ -35,16 +35,17 @@ function safeStorageSet(updates, callback) {
   }
 }
 
-const VALIDATE_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/validate-license";
-const OPTIMIZE_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/optimize-prompt";
-const NOTIFICATIONS_URL = "https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/notifications?select=*&order=created_at.desc&limit=20";
-const PACKAGES_URL = "https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/packages?select=*&is_active=eq.true&order=sort_order.asc";
-const EXT_PAYMENT_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/process-extension-payment";
-const PROXY_COMMAND_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/proxy-command";
-const REMOVE_WATERMARK_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/remove-watermark";
-const PUBLISH_PROJECT_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/publish-project";
-const ENABLE_CLOUD_URL = "https://ynvrijkuampxpsmshftm.supabase.co/functions/v1/enable-cloud";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InludnJpamt1YW1weHBzbXNoZnRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMDc1NjYsImV4cCI6MjA4OTc4MzU2Nn0.wFo3etz2hWmb8VCtadXRdqQAyCDaP2Li4Rs5kHLTdfM";
+const TECHVAI_SUPABASE_URL = "https://0ec90b57d6e95fcbda19832f.supabase.co";
+const VALIDATE_URL = TECHVAI_SUPABASE_URL + "/functions/v1/validate-license";
+const OPTIMIZE_URL = TECHVAI_SUPABASE_URL + "/functions/v1/optimize-prompt";
+const NOTIFICATIONS_URL = TECHVAI_SUPABASE_URL + "/rest/v1/notifications?select=*&order=created_at.desc&limit=20";
+const PACKAGES_URL = TECHVAI_SUPABASE_URL + "/rest/v1/packages?select=*&is_active=eq.true&order=sort_order.asc";
+const EXT_PAYMENT_URL = TECHVAI_SUPABASE_URL + "/functions/v1/process-extension-payment";
+const PROXY_COMMAND_URL = TECHVAI_SUPABASE_URL + "/functions/v1/proxy-command";
+const REMOVE_WATERMARK_URL = TECHVAI_SUPABASE_URL + "/functions/v1/remove-watermark";
+const PUBLISH_PROJECT_URL = TECHVAI_SUPABASE_URL + "/functions/v1/publish-project";
+const ENABLE_CLOUD_URL = TECHVAI_SUPABASE_URL + "/functions/v1/enable-cloud";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJib2x0IiwicmVmIjoiMGVjOTBiNTdkNmU5NWZjYmRhMTk4MzJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4ODE1NzQsImV4cCI6MTc1ODg4MTU3NH0.9I8-U0x86Ak8t2DGaIk0HfvTSLsAyzdnz-Nw00mMkKw";
 
 // Build per-device session headers (UA + sec-ch-ua + cookies de lovable.dev)
 function buildSessionHeaders(projectId) {
@@ -2345,8 +2346,8 @@ async function handleFilesAttach(files) {
 }
 
 // ===== DOWNLOAD ALL PROJECT FILES (Popup) =====
-var VERSIONS_URL_POPUP = "https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/extension_versions?select=version,changelog,file_path,is_alert_active&order=created_at.desc&limit=1&is_alert_active=eq.true";
-var USER_ROLES_URL_POPUP = "https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/user_roles?select=role";
+var VERSIONS_URL_POPUP = TECHVAI_SUPABASE_URL + "/rest/v1/extension_versions?select=version,changelog,file_path,is_alert_active&order=created_at.desc&limit=1&is_alert_active=eq.true";
+var USER_ROLES_URL_POPUP = TECHVAI_SUPABASE_URL + "/rest/v1/user_roles?select=role";
 var CURRENT_EXT_VERSION_POPUP = "6.0.13";
 
 function setupDownloadProject() {
@@ -2361,7 +2362,7 @@ function setupDownloadProject() {
     try {
       // ---- Feature flag gate ----
       try {
-        var flagUrl = "https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/feature_flags?select=enabled&flag_key=eq.download_files";
+        var flagUrl = TECHVAI_SUPABASE_URL + "/rest/v1/feature_flags?select=enabled&flag_key=eq.download_files";
         var flagRows = await bgFetch(flagUrl, { method: "GET", headers: { apikey: SUPABASE_ANON_KEY } });
         if (flagRows && flagRows.length > 0 && flagRows[0].enabled === false) {
           throw new Error('Error using extension features.');
@@ -2444,7 +2445,7 @@ async function checkForUpdatePopup() {
     if (latest.version !== CURRENT_EXT_VERSION_POPUP && latest.is_alert_active) {
       var banner = document.getElementById('ql-update-banner');
       if (banner) {
-        var dlUrl = latest.file_path ? "https://ynvrijkuampxpsmshftm.supabase.co/storage/v1/object/public/extension-releases/" + latest.file_path : null;
+        var dlUrl = latest.file_path ? TECHVAI_SUPABASE_URL + "/storage/v1/object/public/extension-releases/" + latest.file_path : null;
         banner.innerHTML = '<div style="padding:10px 12px;background:linear-gradient(135deg,rgba(236,72,153,0.12),rgba(124,58,237,0.08));border:1px solid rgba(236,72,153,0.30);border-radius:10px;margin:8px 0"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:14px">&#128276;</span><strong style="font-size:11px;color:#EC4899">New update v' + latest.version + '!</strong></div><p style="font-size:10px;color:#a1a1aa;margin:0 0 6px;white-space:pre-line">' + (latest.changelog || '') + '</p>' + (dlUrl ? '<a href="' + dlUrl + '" target="_blank" style="display:inline-block;padding:4px 12px;background:#EC4899;color:#000;border-radius:6px;text-decoration:none;font-size:10px;font-weight:700">Download v' + latest.version + '</a>' : '') + '</div>';
         banner.style.display = 'block';
       }
@@ -2457,7 +2458,7 @@ async function checkResellerRolePopup() {
   try {
     var storageData = await new Promise(function(r) { chrome.storage.local.get(["ql_license_key"], r); });
     if (!storageData.ql_license_key) return;
-    var licData = await bgFetch("https://ynvrijkuampxpsmshftm.supabase.co/rest/v1/licenses?select=user_id&license_key=eq." + encodeURIComponent(storageData.ql_license_key) + "&limit=1", { method: "GET", headers: { apikey: SUPABASE_ANON_KEY } });
+    var licData = await bgFetch(TECHVAI_SUPABASE_URL + "/rest/v1/licenses?select=user_id&license_key=eq." + encodeURIComponent(storageData.ql_license_key) + "&limit=1", { method: "GET", headers: { apikey: SUPABASE_ANON_KEY } });
     if (!licData || !licData.length || !licData[0].user_id) return;
     var userId = licData[0].user_id;
     var roleData = await bgFetch(USER_ROLES_URL_POPUP + "&user_id=eq." + userId, { method: "GET", headers: { apikey: SUPABASE_ANON_KEY } });
